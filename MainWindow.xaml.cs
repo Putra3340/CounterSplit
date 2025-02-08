@@ -1,11 +1,13 @@
 ﻿using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
@@ -29,15 +31,30 @@ namespace CounterSplit
         private Stopwatch stopwatch = new Stopwatch();
 
         public ObservableCollection<SegmentData> Segments { get; set; }
+
+
+        // Hotkey shit
+        private const int WM_HOTKEY = 0x0312;
+
+        [DllImport("user32.dll")]
+        private static extern bool RegisterHotKey(IntPtr hWnd, int id, uint fsModifiers, uint vk);
+
+        [DllImport("user32.dll")]
+        private static extern bool UnregisterHotKey(IntPtr hWnd, int id);
+
+
         public MainWindow()
         {
             DragMove();
             InitializeComponent();
             Segments = new ObservableCollection<SegmentData>();
             SegmentsTable.ItemsSource = Segments; // Bind data to the DataGrid
+            Loaded += (s, e) => RegisterHotkeys();
+            Closed += (s, e) => UnregisterHotkeys();
+            UpdateSegmentButton_Click();
         }
 
-        private void IncrementButton_Click(object sender, RoutedEventArgs e)
+        private void IncrementButton_Click(object sender = null, RoutedEventArgs e = null)
         {
             segmentDeathCount++;
             TotalDeathCount++;
@@ -45,7 +62,7 @@ namespace CounterSplit
             DeathCountLabel.Text = segmentDeathCount.ToString();
         }
 
-        private void NewSplitButton_Click(object sender, RoutedEventArgs e)
+        private void NewSplitButton_Click(object sender = null, RoutedEventArgs e = null)
         {
             
 
@@ -62,17 +79,25 @@ namespace CounterSplit
                 SegmentsTable.Items.Refresh();
                 stopwatch.Stop();
                 DeathCountLabel.Text = "0";
-                MessageBox.Show("GG!", "End of Splits", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                Task.Delay(10000);
+                MessageBox.Show("GG!\nYou Have Beaten God of War PAIN+\nSplit Created by Putra3340", "End of Splits", MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             }
 
 
             if (!stopwatch.IsRunning)
             {
+                TotalSegments = 0;
                 // Get Segment Length
                 foreach (SegmentData data in Segments)
                 {
                     TotalSegments++;
+                }
+
+                if (TotalSegments == 0)
+                {
+                    UpdateSegmentButton_Click();
                 }
                 Segments[0].BackgroundColor = "#FF3373F4";
                 SegmentsTable.Items.Refresh();
@@ -131,15 +156,21 @@ namespace CounterSplit
             return $"{elapsed.Seconds}.{milliseconds:D2}"; // Default: "S:MS"
         }
 
-        private void ResetButton_Click(object sender, RoutedEventArgs e)
+        private void ResetButton_Click(object sender = null, RoutedEventArgs e = null)
         {
             segmentDeathCount = 0;
             segmentNumber = 1;
+            segmentCurrent = 0;
             DeathCountLabel.Text = "0";
             Segments.Clear();
+            stopwatch.Stop();
+            stopwatch.Reset();
+            Timers.Text = "0.00";
+            Timers.Foreground = Brushes.White;
+            UpdateSegmentButton_Click();
         }
 
-        private void UpdateSegmentButton_Click(object sender, RoutedEventArgs e)
+        private void UpdateSegmentButton_Click(object sender = null, RoutedEventArgs e = null)
         {
             if (int.TryParse(SegmentNumberInput.Text, out int targetSegment) && targetSegment > 0)
             {
@@ -181,6 +212,50 @@ namespace CounterSplit
             }
         }
 
+
+
+        // Hotkey
+        private void RegisterHotkeys()
+        {
+            IntPtr hwnd = new WindowInteropHelper(this).Handle;
+            HwndSource source = HwndSource.FromHwnd(hwnd);
+            source.AddHook(WndProc);
+
+            for (int i = 0; i <= 9; i++)
+            {
+                RegisterHotKey(hwnd, i, 0, (uint)(KeyInterop.VirtualKeyFromKey(Key.NumPad0) + i));
+            }
+            RegisterHotKey(hwnd, 10, 0, (uint)KeyInterop.VirtualKeyFromKey(Key.Add));
+        }
+
+        private void UnregisterHotkeys()
+        {
+            IntPtr hwnd = new WindowInteropHelper(this).Handle;
+            for (int i = 0; i <= 10; i++)
+            {
+                UnregisterHotKey(hwnd, i);
+            }
+        }
+
+        private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
+        {
+            if (msg == WM_HOTKEY)
+            {
+                int id = wParam.ToInt32();
+
+                if(id == 0)
+                {
+                    NewSplitButton_Click();
+                }else if(id == 10)
+                {
+                    IncrementButton_Click();
+                }else if(id == 9) {
+                    ResetButton_Click();
+                }
+                handled = true;
+            }
+            return IntPtr.Zero;
+        }
     }
 
     public class SegmentData
