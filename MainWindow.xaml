@@ -43,8 +43,8 @@
 
 
         <!-- Scrollable Table -->
-        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Hidden"
-              Background="#FF463F3F" Margin="5,10,5,10">
+        <ScrollViewer VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Hidden"
+              Background="#FF463F3F" Margin="5,39,5,39" Grid.RowSpan="3">
             <DataGrid x:Name="SegmentsTable" Background="#FF463F3F" Foreground="White"
               AutoGenerateColumns="False" HeadersVisibility="Column" CanUserAddRows="False"
               BorderThickness="0" GridLinesVisibility="None" Height="344" Width="280"
