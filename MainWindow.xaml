@@ -1,0 +1,123 @@
+﻿<Window x:Class="CounterSplit.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Death Counter" Height="749" Width="300"
+        Background="#FF463F3F" WindowStyle="None" ResizeMode="NoResize"
+        MouseDown="Window_MouseDown">
+
+
+    <Grid Margin="0,0,0,317">
+        <!-- Define Rows -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Title -->
+        <TextBlock Text="God of War" FontSize="18" FontWeight="Bold" Foreground="White"
+                   HorizontalAlignment="Center" Margin="0,0,0,10" Grid.Row="0" FontFamily="Segoe UI"/>
+
+        <!-- Subtitle -->
+        <TextBlock Text="PAIN+" FontSize="14" Foreground="White"
+                   HorizontalAlignment="Center" Margin="0,20,0,20" Grid.Row="0" FontFamily="Segoe UI"/>
+        <TextBlock Name="Timers" Text="0.00" FontSize="40" Foreground="White"
+                   HorizontalAlignment="Right" Margin="0,398,-1,-82" Grid.Row="2" Width="290" FontFamily="Segoe UI" FontWeight="Bold" RenderTransformOrigin="0.514,0.509" TextAlignment="Right"/>
+        <StackPanel
+
+        Grid.Row="2" Orientation="Horizontal" Margin="18,455,0,-204" HorizontalAlignment="Left" Width="300">
+
+            <StackPanel Margin="10">
+                <TextBlock Text="Current Segment" FontSize="16" Foreground="White"/>
+                <TextBlock x:Name="DeathCountLabel" Text="0" FontSize="48" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center"/>
+            </StackPanel>
+
+            <StackPanel
+                Margin="10">
+                <TextBlock Text="Total Deaths" FontSize="16" Foreground="White" HorizontalAlignment="Center"/>
+                <TextBlock x:Name="DeathTotals" Text="0" FontSize="48" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center"/>
+            </StackPanel>
+        </StackPanel>
+
+        <!-- Current Segment Death Count -->
+
+
+        <!-- Scrollable Table -->
+        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Hidden"
+              Background="#FF463F3F" Margin="5,10,5,10">
+            <DataGrid x:Name="SegmentsTable" Background="#FF463F3F" Foreground="White"
+              AutoGenerateColumns="False" HeadersVisibility="Column" CanUserAddRows="False"
+              BorderThickness="0" GridLinesVisibility="None" Height="344" Width="280"
+              ScrollViewer.CanContentScroll="False"
+              ScrollViewer.VerticalScrollBarVisibility="Hidden"
+              ScrollViewer.HorizontalScrollBarVisibility="Hidden">
+                <DataGrid.Resources>
+                    <Style TargetType="DataGridColumnHeader">
+                        <Setter Property="Background" Value="#FF463F3F"/>
+                        <Setter Property="Foreground" Value="White"/>
+                        <Setter Property="BorderThickness" Value="0"/>
+                        <Setter Property="FontWeight" Value="Bold"/>
+                    </Style>
+                </DataGrid.Resources>
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Name" Binding="{Binding SegmentNumber}" Width="100">
+                        <DataGridTextColumn.CellStyle>
+                            <Style TargetType="DataGridCell">
+                                <Setter Property="Background" Value="{Binding BackgroundColor}"/>
+                                <Setter Property="Foreground" Value="White"/>
+                                <Setter Property="BorderThickness" Value="0"/>
+                                <Setter Property="FontSize" Value="16"/>
+                                <Setter Property="FontWeight" Value="Bold"/>
+                                <Setter Property="FontFamily" Value="Segoe UI"/>
+                            </Style>
+                        </DataGridTextColumn.CellStyle>
+                    </DataGridTextColumn>
+
+                    <DataGridTextColumn Header="Split Time" Binding="{Binding CurrentTime}" Width="100">
+                        <DataGridTextColumn.CellStyle>
+                            <Style TargetType="DataGridCell">
+                                <Setter Property="Background" Value="{Binding BackgroundColor}"/>
+                                <Setter Property="Foreground" Value="White"/>
+                                <Setter Property="BorderThickness" Value="0"/>
+                                <Setter Property="FontSize" Value="18"/>
+                                <Setter Property="FontWeight" Value="Bold"/>
+                                <Setter Property="FontFamily" Value="Segoe UI"/>
+                            </Style>
+                        </DataGridTextColumn.CellStyle>
+                    </DataGridTextColumn>
+
+                    <DataGridTextColumn Header="Deaths" Binding="{Binding DeathCount}" Width="100">
+                        <DataGridTextColumn.CellStyle>
+                            <Style TargetType="DataGridCell">
+                                <Setter Property="Background" Value="{Binding BackgroundColor}"/>
+                                <Setter Property="Foreground" Value="White"/>
+                                <Setter Property="BorderThickness" Value="0"/>
+                                <Setter Property="FontSize" Value="18"/>
+                                <Setter Property="FontWeight" Value="Bold"/>
+                                <Setter Property="FontFamily" Value="Segoe UI"/>
+                            </Style>
+                        </DataGridTextColumn.CellStyle>
+                    </DataGridTextColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </ScrollViewer>
+
+
+        <!-- Control Panel -->
+        <StackPanel Grid.Row="2" HorizontalAlignment="Center" Margin="0,568,0,-313">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,5,0,5">
+                <TextBox x:Name="SegmentNumberInput" Width="50" Height="30" FontSize="16" Text="1" Margin="5"/>
+                <Button x:Name="UpdateSegmentButton" Content="Update" FontSize="16" Width="80" Height="30"
+                        Click="UpdateSegmentButton_Click" Margin="5"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Button x:Name="IncrementButton" Content="+1" FontSize="16" Width="60" Height="30"
+                        Click="IncrementButton_Click" Margin="5"/>
+                <Button x:Name="NewSplitButton" Content="Split" FontSize="16" Width="60" Height="30"
+                        Click="NewSplitButton_Click" Margin="5"/>
+                <Button x:Name="ResetButton" Content="Reset" FontSize="16" Width="60" Height="30"
+                        Click="ResetButton_Click" Margin="5"/>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>
