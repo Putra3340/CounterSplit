@@ -1,0 +1,42 @@
+﻿God of War
+Pain+
+0 // This is Attempt Count
+1 // This is Completion Count
+00:02:51:44.60 // State
+20 // Last Segment Index + 1
+// This is the Splits Contents
+SegmentNumber = "Hydra 1", DeathCount = 0, CurrentTime = "2:52.53"
+SegmentNumber = "Hydra 2", DeathCount = 0, CurrentTime = "5:40.79"
+SegmentNumber = "Poseidon", DeathCount = 0, CurrentTime = "7:50.15"
+SegmentNumber = "Hydra", DeathCount = 0, CurrentTime = "15:30.79"
+SegmentNumber = "Aegean Sea", DeathCount = 0, CurrentTime = "16:41.00"
+SegmentNumber = "Minotaurs", DeathCount = 0, CurrentTime = "19:58.89"
+SegmentNumber = "Aphrodite", DeathCount = 0, CurrentTime = "23:51.85"
+SegmentNumber = "Medusa", DeathCount = 1, CurrentTime = "28:07.60"
+SegmentNumber = "Oracle", DeathCount = 2, CurrentTime = "34:40.33"
+SegmentNumber = "Stay Away", DeathCount = 0, CurrentTime = "43:42.94"
+SegmentNumber = "Wraiths C", DeathCount = 0, CurrentTime = "45:43.99"
+SegmentNumber = "Wraiths", DeathCount = 5, CurrentTime = "1:04:58.39"
+SegmentNumber = "Zeus Fury", DeathCount = 0, CurrentTime = "1:08:15.81"
+SegmentNumber = "Temple", DeathCount = 0, CurrentTime = "1:11:34.80"
+SegmentNumber = "Old Man", DeathCount = 0, CurrentTime = "1:13:31.60"
+SegmentNumber = "Oracle", DeathCount = 0, CurrentTime = "1:20:25.91"
+SegmentNumber = "Desert", DeathCount = 0, CurrentTime = "1:24:41.32"
+SegmentNumber = "3 Sirens", DeathCount = 8, CurrentTime = "2:15:09.91"
+SegmentNumber = "Sirens", DeathCount = 5, CurrentTime = "2:51:30.66"
+SegmentNumber = "Cronos%", DeathCount = 0, CurrentTime = "2:51:44.60"
+SegmentNumber = "Warrior", DeathCount = 0, CurrentTime = ""
+SegmentNumber = "Temple", DeathCount = 0, CurrentTime = ""
+SegmentNumber = "Artemis", DeathCount = 0, CurrentTime = ""
+SegmentNumber = "Shields", DeathCount = 0, CurrentTime = ""
+SegmentNumber = "Crank", DeathCount = 0, CurrentTime = ""
+SegmentNumber = "CoA", DeathCount = 0, CurrentTime = ""
+SegmentNumber = "Cerberus", DeathCount = 0, CurrentTime = ""
+SegmentNumber = "Sacrifice", DeathCount = 0, CurrentTime = ""
+SegmentNumber = "Trident", DeathCount = 0, CurrentTime = ""
+SegmentNumber = "CoP", DeathCount = 0, CurrentTime = ""
+SegmentNumber = "Centaurs C", DeathCount = 0, CurrentTime = ""
+SegmentNumber = "Centaurs", DeathCount = 0, CurrentTime = ""
+SegmentNumber = "CoH", DeathCount = 0, CurrentTime = ""
+SegmentNumber = "Minotaur C", DeathCount = 0, CurrentTime = ""
+SegmentNumber = "Minotaur%", DeathCount = 0, CurrentTime = ""

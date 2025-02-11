@@ -25,10 +25,11 @@ namespace CounterSplit
         private int segmentNumber = 1; // Segment counter
         private int segmentCurrent = 0;
         private string SegmentTime = string.Empty;
-
+        private bool isResuming = true;
         private int TotalSegments = 0;
 
         private Stopwatch stopwatch = new Stopwatch();
+        private TimeSpan offset = TimeSpan.FromMinutes(1.5) + TimeSpan.FromMilliseconds(120);
 
         public ObservableCollection<SegmentData> Segments { get; set; }
 
@@ -64,9 +65,9 @@ namespace CounterSplit
 
         private void NewSplitButton_Click(object sender = null, RoutedEventArgs e = null)
         {
-            
 
-            if(TotalSegments == segmentCurrent+1)
+
+            if (TotalSegments == segmentCurrent + 1)
             {
                 // End of Splits
                 Segments[segmentCurrent].CurrentTime = SegmentTime;
@@ -99,15 +100,17 @@ namespace CounterSplit
                 {
                     UpdateSegmentButton_Click();
                 }
-                Segments[0].BackgroundColor = "#FF3373F4";
+                Segments[segmentCurrent].BackgroundColor = "#FF3373F4";
                 SegmentsTable.Items.Refresh();
-
+                
                 StartTimer();
                 return;
             }
 
             // Mark Next Split to blue
-            Segments[segmentCurrent+1].BackgroundColor = "#FF3373F4";
+            Segments[segmentCurrent + 1].BackgroundColor = "#FF3373F4";
+
+
 
 
             // Update By Index ??
@@ -115,6 +118,7 @@ namespace CounterSplit
             Segments[segmentCurrent].DeathCount = segmentDeathCount;
             // Reset Color
             Segments[segmentCurrent].BackgroundColor = "#FF463F3F";
+            // TODO : Add delta time
 
             // Refresh DataGrid
             SegmentsTable.Items.Refresh();
@@ -136,12 +140,20 @@ namespace CounterSplit
         private async Task StartTimer()
         {
             Timers.Foreground = (SolidColorBrush)new BrushConverter().ConvertFrom("#FF00CC36");
-            stopwatch.Start();
+            if (isResuming)
+            {
+                stopwatch.Start();
+            }
+            else
+            {
+                offset = TimeSpan.Zero; // Reset offset when starting fresh
+                stopwatch.Start();
+            }
             while (stopwatch.IsRunning)
             {
-                TimeSpan elapsed = stopwatch.Elapsed;
+                TimeSpan elapsed = stopwatch.Elapsed + offset;
                 Timers.Text = FormatTime(elapsed);
-                SegmentTime = Timers.Text;
+                SegmentTime = Timers.Text.Split(".").First();
                 await Task.Delay(10); // Update every millisecond
             }
             return;
@@ -161,6 +173,8 @@ namespace CounterSplit
             segmentDeathCount = 0;
             segmentNumber = 1;
             segmentCurrent = 0;
+            TotalDeathCount = 0;
+            DeathTotals.Text = "0";
             DeathCountLabel.Text = "0";
             Segments.Clear();
             stopwatch.Stop();
@@ -176,24 +190,31 @@ namespace CounterSplit
             {
 
                 #region Add Segment Manually
-                Segments.Add(new SegmentData { SegmentNumber = "Hydra 1",BackgroundColor = "#FF463F3F", DeathCount = 0 });
-                Segments.Add(new SegmentData { SegmentNumber = "Hydra 1",BackgroundColor = "#FF463F3F", DeathCount = 0 });
-                Segments.Add(new SegmentData { SegmentNumber = "Hydra 1",BackgroundColor = "#FF463F3F", DeathCount = 0 });
-                Segments.Add(new SegmentData { SegmentNumber = "Hydra 1",BackgroundColor = "#FF463F3F", DeathCount = 0 });
-                Segments.Add(new SegmentData { SegmentNumber = "Hydra 1",BackgroundColor = "#FF463F3F", DeathCount = 0 });
-                Segments.Add(new SegmentData { SegmentNumber = "Hydra 1",BackgroundColor = "#FF463F3F", DeathCount = 0 });
-                Segments.Add(new SegmentData { SegmentNumber = "Hydra 1",BackgroundColor = "#FF463F3F", DeathCount = 0 });
-                Segments.Add(new SegmentData { SegmentNumber = "Hydra 1",BackgroundColor = "#FF463F3F", DeathCount = 0 });
-                Segments.Add(new SegmentData { SegmentNumber = "Hydra 1",BackgroundColor = "#FF463F3F", DeathCount = 0 });
-                Segments.Add(new SegmentData { SegmentNumber = "Hydra 1",BackgroundColor = "#FF463F3F", DeathCount = 0 });
-                Segments.Add(new SegmentData { SegmentNumber = "Hydra 1",BackgroundColor = "#FF463F3F", DeathCount = 0 });
-                Segments.Add(new SegmentData { SegmentNumber = "Hydra 1",BackgroundColor = "#FF463F3F", DeathCount = 0 });
-                Segments.Add(new SegmentData { SegmentNumber = "Hydra 1",BackgroundColor = "#FF463F3F", DeathCount = 0 });
-                Segments.Add(new SegmentData { SegmentNumber = "Hydra 1",BackgroundColor = "#FF463F3F", DeathCount = 0 });
-                Segments.Add(new SegmentData { SegmentNumber = "Hydra 1",BackgroundColor = "#FF463F3F", DeathCount = 0 });
-                Segments.Add(new SegmentData { SegmentNumber = "Hydra 1",BackgroundColor = "#FF463F3F", DeathCount = 0 });
-                Segments.Add(new SegmentData { SegmentNumber = "Hydra 1",BackgroundColor = "#FF463F3F", DeathCount = 0 });
-                
+
+
+                Segments.Add(new SegmentData { SegmentNumber = "Hydra 1", BackgroundColor = "#FF463F3F", DeathCount = 0 });
+                Segments.Add(new SegmentData { SegmentNumber = "Hydra 2", BackgroundColor = "#FF463F3F", DeathCount = 0 });
+                Segments.Add(new SegmentData { SegmentNumber = "Poseidon", BackgroundColor = "#FF463F3F", DeathCount = 0 });
+                Segments.Add(new SegmentData { SegmentNumber = "Hydra", BackgroundColor = "#FF463F3F", DeathCount = 0 });
+                Segments.Add(new SegmentData { SegmentNumber = "Aegean Sea", BackgroundColor = "#FF463F3F", DeathCount = 0 });
+                Segments.Add(new SegmentData { SegmentNumber = "Minotaurs", BackgroundColor = "#FF463F3F", DeathCount = 0 });
+                Segments.Add(new SegmentData { SegmentNumber = "Aphrodite", BackgroundColor = "#FF463F3F", DeathCount = 0 });
+                Segments.Add(new SegmentData { SegmentNumber = "Medusa", BackgroundColor = "#FF463F3F", DeathCount = 0 });
+                Segments.Add(new SegmentData { SegmentNumber = "Oracle", BackgroundColor = "#FF463F3F", DeathCount = 0 });
+                Segments.Add(new SegmentData { SegmentNumber = "Stay Away", BackgroundColor = "#FF463F3F", DeathCount = 0 });
+                Segments.Add(new SegmentData { SegmentNumber = "Wraiths C", BackgroundColor = "#FF463F3F", DeathCount = 0 });
+                Segments.Add(new SegmentData { SegmentNumber = "Wraiths", BackgroundColor = "#FF463F3F", DeathCount = 0 });
+                Segments.Add(new SegmentData { SegmentNumber = "Zeus Fury", BackgroundColor = "#FF463F3F", DeathCount = 0 });
+                Segments.Add(new SegmentData { SegmentNumber = "Temple", BackgroundColor = "#FF463F3F", DeathCount = 0 });
+                Segments.Add(new SegmentData { SegmentNumber = "Old Man", BackgroundColor = "#FF463F3F", DeathCount = 0 });
+                Segments.Add(new SegmentData { SegmentNumber = "Oracle", BackgroundColor = "#FF463F3F", DeathCount = 0 });
+                Segments.Add(new SegmentData { SegmentNumber = "Desert", BackgroundColor = "#FF463F3F", DeathCount = 0 });
+                Segments.Add(new SegmentData { SegmentNumber = "3 Sirens", BackgroundColor = "#FF463F3F", DeathCount = 0 });
+                Segments.Add(new SegmentData { SegmentNumber = "Sirens", BackgroundColor = "#FF463F3F", DeathCount = 0 });
+                Segments.Add(new SegmentData { SegmentNumber = "Cronos%", BackgroundColor = "#FF463F3F", DeathCount = 0 });
+
+
+
                 #endregion
 
                 // Update By Index ??
@@ -243,18 +264,83 @@ namespace CounterSplit
             {
                 int id = wParam.ToInt32();
 
-                if(id == 0)
+                if (id == 0)
                 {
                     NewSplitButton_Click();
-                }else if(id == 10)
+                }
+                else if (id == 10)
                 {
                     IncrementButton_Click();
-                }else if(id == 9) {
+                }
+                else if (id == 9)
+                {
                     ResetButton_Click();
                 }
                 handled = true;
             }
             return IntPtr.Zero;
+        }
+
+        private async Task<bool> ImportSplits(string[] splits)
+        {
+            if (splits.Length > 7)
+            {
+                Segments.Clear();
+                string Title = splits[0];
+                string Category = splits[1];
+
+                
+                // This is set timespan offset
+                string TimeState = splits[4];
+                if(TimeState.Replace(":","").Replace(".","") == "0000000000")
+                {
+                    isResuming = false;
+                }
+                else
+                {
+                    string Milisecond = TimeState.Split(".").Last().Split(" ").First();
+                    string Second = TimeState.Split(":")[3].Split(".").First();
+                    string Minute = TimeState.Split(":")[2];
+                    string Hour = TimeState.Split(":")[1];
+                    string Day = TimeState.Split(":")[0];
+                    offset = new TimeSpan(int.Parse(Day), int.Parse(Hour), int.Parse(Minute), int.Parse(Second), int.Parse(Milisecond));
+                    Timers.Text = FormatTime(offset);
+                    // Also Set the timer to resume
+                    isResuming = true;
+                }
+                segmentCurrent = int.Parse(splits[5].Split(" ").First());
+
+                // Set Segments
+                for (int i = 7; i < splits.Length; i++)
+                {
+                    string split = splits[i];
+                    if (!string.IsNullOrEmpty(split))
+                    {
+                        // Add Segment
+                        Segments.Add(new SegmentData { SegmentNumber = split.Split("SegmentNumber = \"").Last().Split("\"").First(), BackgroundColor = "#FF463F3F",CurrentTime = split.Split("CurrentTime = \"").Last().Split("\"").First().Split(".").First(), DeathCount = int.Parse(split.Split("DeathCount = ").Last().Split(",").First())});
+                    }
+                }
+                Segments[segmentCurrent].BackgroundColor = "#FF3373F4";
+            }
+            else
+            {
+                MessageBox.Show("Invalid Split File", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            return true;
+        }
+
+        private async void ImportFile_Click(object sender, RoutedEventArgs e)
+        {
+            Microsoft.Win32.OpenFileDialog openFileDialog = new Microsoft.Win32.OpenFileDialog
+            {
+                Filter = "Split Files (*.ds)|*.ds",
+                Title = "Import Splits"
+            };
+            if (openFileDialog.ShowDialog() == true)
+            {
+                string[] splits = System.IO.File.ReadAllLines(openFileDialog.FileName, Encoding.UTF8);
+                await ImportSplits(splits);
+            }
         }
     }
 
