@@ -309,7 +309,8 @@ namespace CounterSplit
                     isResuming = true;
                 }
                 segmentCurrent = int.Parse(splits[5].Split(" ").First());
-
+                TotalDeathCount = int.Parse(splits[6].Split(" ").First());
+                DeathTotals.Text = TotalDeathCount.ToString();
                 // Set Segments
                 for (int i = 7; i < splits.Length; i++)
                 {

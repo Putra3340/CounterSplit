@@ -4,7 +4,7 @@ Pain+
 1 // This is Completion Count
 00:02:51:44.60 // State
 20 // Last Segment Index + 1
-// This is the Splits Contents
+21 // This is Total Death Count
 SegmentNumber = "Hydra 1", DeathCount = 0, CurrentTime = "2:52.53"
 SegmentNumber = "Hydra 2", DeathCount = 0, CurrentTime = "5:40.79"
 SegmentNumber = "Poseidon", DeathCount = 0, CurrentTime = "7:50.15"
